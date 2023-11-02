@@ -1,0 +1,2 @@
+create resourse group, storage account, and container using statefile.ps1 file and mention the credentials in the provider file.
+it will store the state file into that container

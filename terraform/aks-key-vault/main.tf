@@ -29,7 +29,7 @@ resource "azurerm_kubernetes_cluster" "aks11" {
 }
 
 module "keyvault" {
-  source = "./modules-aks"
+  source = "../modules-aks"
   name = var.keyvault_name
   resource_group_name = azurerm_resource_group.rgg11.name
   location = var.location

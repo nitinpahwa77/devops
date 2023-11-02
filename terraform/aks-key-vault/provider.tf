@@ -1,10 +1,14 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-    }
-  }
-}
+
 provider "azurerm" {
   features {}
+}
+
+terraform {
+  cloud {
+    organization = "nitinpahwadevops"
+
+    workspaces {
+      name = "aks-cluster-workspace"
+    }
+  }
 }

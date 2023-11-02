@@ -1,0 +1,60 @@
+name: aks-pipeline-1
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_terraform:
+        description: "Type \"DEPLO-TERRAFORM\" to deploy Terraform"
+        default: null
+        required: false
+
+  push:
+    paths:
+      - terraform/aks-key-vault/*.tf
+          
+    branches:
+      - master
+      - development
+
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_CLIENT_ID: 1bc4a18b-b62b-4963-814c-4aa7879091b0
+      ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: edb42159-c288-4e10-aea0-2f403be9a8fb
+      ARM_TENANT_ID: 6f874ced-ea4e-4abc-9ed8-ef4aaa0463ad
+      TFE_TOKEN:  ${{secrets.TF_API_TOKEN}}
+      working_directory: "terraform/aks-key-vault"
+    
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        # env:
+        #   TFE_TOKEN:  ${{secrets.TF_API_TOKEN}}
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ${{env.working_directory}}
+        env:
+          TFE_TOKEN:  ${{secrets.TF_API_TOKEN}}
+        
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: ${{env.working_directory}}
+        # env:
+        #   TFE_TOKEN:  ${{secrets.TF_API_TOKEN}}
+      
+      - name: terraform apply 
+        run: terraform apply -auto-approve
+        working-directory: ${{env.working_directory}}

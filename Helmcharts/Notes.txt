@@ -1,0 +1,90 @@
+#######################       ARGOCD
+
+
+helm repo add argo-cd https://argoproj.github.io/argo-helm
+https://artifacthub.io/packages/helm/argo/argo-cd
+helm pull argo-cd/argo-cd --untar --version 4.5.11
+
+helm install argo-cd . -n argocd 
+
+helm upgrade argo-cd . -n argocd -f env/dev/aks_values.yaml
+
+helm install argo-cd argo/argo-cd -n argocd
+
+helm upgrade --install  argo-cd argo/argo-cd -n argocd 
+
+kubectl port-forward service/argocd-server -n argocd 8080:443
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#:~:text=Example%20for%20SSH%3A-,apiVersion%3A%20v1%0Akind%3A%20Secret%0Ametadata%3A%0A%20%20name%3A%20private,%2D%2D%2D%2D%2DBEGIN%20OPENSSH%20PRIVATE%20KEY%2D%2D%2D%2D%2D%0A%20%20%20%20...%0A%20%20%20%20%2D%2D%2D%2D%2DEND%20OPENSSH%20PRIVATE%20KEY%2D%2D%2D%2D%2D,-Example%20for%20GitHub
+
+https://artifacthub.io/packages/helm/argo/argocd-apps
+
+az keyvault secret set --name pvtsshkeyazure --vault-name dmpkeyvault123  --file id_rsa_sshkey
+
+
+# to generate ssh keys
+ssh-keygen -t ed25519 -C "jvseroka2020@gmail.com"  
+C:\Users\jvser\.ssh   --- default path 
+
+az keyvault secret set --name pvtsshkeyazure --vault-name aprilk8s23-kv  --file id_ed25519
+
+#argocd apps chart - create appproject and applications
+helm pull  argo/argocd-apps --version 1.2.0 --untar
+- ---------------------------------------------------------------------------------------------
+
+fe04e03b-5977-4b45-b9ac-35dc1c1aabd5"
+
+az ad sp create-for-rbac --name "sp-hello-azure-tf" --role Contributor --scopes /subscriptions/fe04e03b-5977-4b45-b9ac-35dc1c1aabd5 --sdk-auth
+
+---------------------------------------------
+AKV2k8S_CHART
+
+helm repo add spv-charts https://charts.spvapi.no
+
+helm pull spv-charts/akv2k8s --untar --version 2.2.0
+
+create a ns: akv2k8s
+
+helm install . -n akv2k8s
+--------------------------------------------------------------------------------
+
+nginx-ingress controller
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm pull ingress-nginx/ingress-nginx --untar --version 4.1.0
+create ns
+helm install ingress . -n nginx-ingress
+
+
+# this is the default local hostfile path
+ C:\Windows\System32\drivers\etc\hosts
+
+--------------------------------------------------------------------------------
+helm repo add stakater https://stakater.github.io/stakater-charts
+reloader helm chart
+kubectl create ns reloader
+ helm pull stakater-charts/reloader --untar
+ helm install . reloader -n reloader 
+ 
+
+-------------------------------------------------------------------------------
+
+
+prometheus
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm pull  prometheus-community/prometheus --untar
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://charts.helm.sh/stable  
+helm install prometheus prometheus-community/kube-prometheus-stack  
+kubectl port-forward deployment/prometheus-grafana 3000  
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm install traefik stable/traefik --set metrics.prometheus.enabled=true
+
+
+prometheus-stack
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack --namespace prometheus --create-namespace=true  
+helm pull  prometheus-community/kube-prometheus-stack --untar

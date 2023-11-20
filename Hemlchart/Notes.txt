@@ -1,0 +1,13 @@
+install aks cluster
+login to the cluster
+add repo   ----     helm repo add argo-cd https://argoproj.github.io/argo-helm
+pull the helm   -- helm pull argo-cd/argo-cd --untar --version 4.5.11
+install helm argocd in the name space argocd   --- helm install argo-cd . -n argocd --create-namespace
+
+
+argo-cd app--------
+
+https://artifacthub.io/packages/helm/argo/argocd-apps
+helm repo add argo https://argoproj.github.io/argo-helm
+helm pull  argo/argocd-apps --version 1.4.1 --untar
+helm install my-argocd-apps argo/argocd-apps --version 1.4.1

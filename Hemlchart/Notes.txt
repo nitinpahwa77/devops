@@ -11,3 +11,11 @@ https://artifacthub.io/packages/helm/argo/argocd-apps
 helm repo add argo https://argoproj.github.io/argo-helm
 helm pull  argo/argocd-apps --version 1.4.1 --untar
 helm install my-argocd-apps argo/argocd-apps --version 1.4.1
+
+connect repo to argocd UI
+create ssh keys (public and private) uisng the the below command in the local terminal
+ssh-keygen -t ed25519 -C "nitinpahwa77@gmail.com"
+then add the public key to the github repo ssh key section
+add the private key in the secret.yaml file and run that file using kubectl command and create that secret
+    - we have to mention that repo URL in the secret.
+once we create the secret, the repo will be connected automatically.

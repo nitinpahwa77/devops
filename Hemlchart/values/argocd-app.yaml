@@ -10,7 +10,7 @@ applications:
     - resources-finalizer.argocd.argoproj.io
     project: devops
     source:
-      repoURL: git@github.com:jitendersinghdevops/argo-demo-app.git
+      repoURL: git@github.com:nitinpahwa77/argocd-demoapp-nitin.git
       targetRevision: HEAD
       path: .
     destination:
@@ -33,8 +33,8 @@ projects:
     - resources-finalizer.argocd.argoproj.io
     description: This is Demo DMP project
     sourceRepos:
-    - git@github.com:jitendersinghdevops/argo-demo-app.git
-    - git@github.com:Devops-coach-js/LAS-DMP.git
+    - git@github.com:nitinpahwa77/argocd-demoapp-nitin.git
+    - git@github.com:nitinpahwa77/devops.git
     destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc

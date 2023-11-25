@@ -10,8 +10,8 @@ metadata:
 spec:
   description: This is Demo DMP project
   sourceRepos:
-    - git@github.com:jitendersinghdevops/argo-demo-app.git
-    - git@github.com:Devops-coach-js/LAS-DMP.git
+    - git@github.com:nitinpahwa77/devops.git
+    - git@github.com:nitinpahwa77/argocd-demoapp-nitin.git
   destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc
@@ -31,7 +31,7 @@ spec:
   project: devops
   source:
     path: .
-    repoURL: git@github.com:jitendersinghdevops/argo-demo-app.git
+    repoURL: git@github.com:nitinpahwa77/argocd-demoapp-nitin.git
     targetRevision: HEAD
   destination:
     namespace: las-test-app

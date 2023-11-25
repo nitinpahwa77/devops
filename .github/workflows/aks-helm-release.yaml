@@ -43,6 +43,11 @@ jobs:
         az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         az aks get-credentials --resource-group ${{env.clusterResourceGroupName}}  --name ${{env.clusterName}}  --overwrite-existing
 
+    - name: Add Helm repository
+      run: |
+        helm repo add myrepo https://example.com/path/to/charts
+        helm repo update
+
     - name: Deploy Helm Chart
       run: |
         helm upgrade --install ${{env.releaseName}} ${{env.ChartPath}} -f ${{env.valueFile}} -n argocd --create-namespace=true

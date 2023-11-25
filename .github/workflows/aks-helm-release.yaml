@@ -46,4 +46,4 @@ jobs:
 
     - name: Deploy Helm Chart
       run: |
-        helm upgrade --install ${{env.releaseName}} ${{env.ChartPath}} -f ${{env.valueFile}} -n argocd --create-namespace=true
+        helm upgrade --install ${{env.releaseName}} ${{env.ChartPath}} -f ${{env.valueFile}} -n argocd --create-namespace=true --debug

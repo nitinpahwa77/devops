@@ -45,7 +45,7 @@ jobs:
 
     - name: Add Helm repository
       run: |
-        helm repo add myrepo https://example.com/path/to/charts
+        helm repo add myrepo https://github.com/helm/helm/releases
         helm repo update
 
     - name: Deploy Helm Chart

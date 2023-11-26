@@ -17,8 +17,8 @@ jobs:
 
     env:
       releaseName: argo-cd
-      ChartPath: Devops/Helmchart-kb/100-argo-cd
-      valueFile: Devops/Helmchart-kb/values/argocd-values.yaml
+      ChartPath: 100-argo-cd
+      valueFile: values/argocd-values.yaml
       clusterResourceGroupName: aks_cls_rg
       clusterName: aks-cls-name
 

@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      releaseName: argocd
+      releaseName: argo-cd
       ChartPath: Helmchart/100-argo-cd
       valueFile: Helmchart/values/argocd-values.yaml
       clusterResourceGroupName: aks_cls_rg

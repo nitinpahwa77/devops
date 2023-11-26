@@ -104,6 +104,13 @@ az ad sp create-for-rbac --name "sp-hello-azure-tf" --role Contributor --scopes 
 
 AKV2K8S
 
+It is a tool to sync or use azure key vault secrets in the kubernetes cluster.
+We store secrets, keys, certificates in the azure key vault and we use them in the k8s(kubernetes cluster)
+We use AKV2K8S tool to manage all this. We install this tool in the AKS cluster and this tool fetch or sync 
+these keys, secrets, certificates from Azure Key vault to the AKS cluster.
+
+We install AKV2K8S controller and then we create akv2k8s files.
+
 helm repo add spv-charts https://charts.spvapi.no
 
 helm pull spv-charts/akv2k8s --untar --version 2.2.0

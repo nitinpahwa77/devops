@@ -1,0 +1,42 @@
+---
+# Source: argocd-apps/templates/projects.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: devops
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: This is Demo DMP project
+  sourceRepos:
+    - git@github.com:nitinpahwa77/devops.git
+    - git@github.com:nitinpahwa77/argocd-demoapp-nitin.git
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+# Source: argocd-apps/templates/applications.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-demo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: devops
+  source:
+    path: .
+    repoURL: git@github.com:nitinpahwa77/argocd-demoapp-nitin.git
+    targetRevision: HEAD
+  destination:
+    namespace: las-test-app
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

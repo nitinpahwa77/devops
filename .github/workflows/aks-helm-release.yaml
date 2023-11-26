@@ -1,0 +1,48 @@
+name: Helm Release to Azure
+
+on: 
+  workflow_dispatch:
+    inputs:
+      helm_release:
+        description: "Type \"HELM_RELEASE\" to helm release"
+        default: null
+        required: false
+  push:
+    branches:
+      - development # Change this to the branch you want to trigger the release
+      
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    env:
+      releaseName: argo-cd-argocd 
+      ChartPath: Helmchart/100-argo-cd
+      valueFile: Helmchart/values/argocd-values.yaml
+      clusterResourceGroupName: aks_cls_rg
+      clusterName: aks-cls-name
+
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+        helm version
+
+    - name: Log in to Azure using Service Principal
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+
+    - name: Set Azure subscription and login to the cluster
+      run: |
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az aks get-credentials --resource-group ${{env.clusterResourceGroupName}}  --name ${{env.clusterName}}  --overwrite-existing
+
+
+    - name: Deploy Helm Chart
+      run: |
+        helm upgrade --install ${{env.releaseName}} ${{env.ChartPath}} -f ${{env.valueFile}} -n argocd --create-namespace=true --debug

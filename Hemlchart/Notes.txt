@@ -1,0 +1,101 @@
+install aks cluster
+login to the cluster
+
+
+----------------------------------------------------------------------------------------------
+argocd
+
+add repo to install the argocd
+helm repo add argo-cd https://argoproj.github.io/argo-helm
+
+Now pull the argocd repo.
+pull the helm   -- helm pull argo-cd/argo-cd --untar --version 4.5.11
+
+Install the argocd in the cluster in the argocd namespace
+helm install argo-cd . -n argocd --create-namespace
+
+----------------------------------------------------------------------------------------------
+
+Argocd App
+
+https://artifacthub.io/packages/helm/argo/argocd-apps
+helm repo add argo https://argoproj.github.io/argo-helm
+helm pull  argo/argocd-apps --version 1.4.1 --untar
+helm install my-argocd-apps argo/argocd-apps --version 1.4.1
+
+----------------------------------------------------------------------------------------------
+
+Connect repo to argocd UI
+create ssh keys (public and private) uisng the the below command in the local terminal
+
+ssh-keygen -t ed25519 -C "nitinpahwa77@gmail.com"
+
+then add the public key to the github repo ssh key section
+add the private key in the secret.yaml file and run that file using kubectl command and create that secret
+    - we have to mention that repo URL in the secret.
+once we create the secret, the repo will be connected automatically.
+
+
+to create appplication, pass values in the application.yaml in the argocd-app folder from the valus-folder (argocd-app.yaml file)
+i will check with command what i am creating 
+    helm template . -f ../values/argocd-app.yaml
+
+after checking i will create the application by running command 
+    helm install argocd-app . -f ../values/argocd-app.yaml
+
+----------------------------------------------------------------------------------------------
+
+Now in order to access the argocd UI from a URL will use the nginx ingress controller to create the ingress resource.
+With the help of helm, we will install Nginx Ingress Controller in the ingress namespace.
+Helm will create ingress class, load balancer IP
+
+add the nginx ingress controller repo in the local machine
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+then pull the untar version
+helm pull ingress-nginx/ingress-nginx --untar --version 4.1.0
+
+install the nginx ingress controller in the ingress namespace
+helm install ingress . -n ingress --create-namespace
+
+add the annotation using the the ingress.yaml file which is present in the values folder
+helm upgrade --install ingress . -n ingress -f ../values/ingress.yaml
+
+
+Now we have to host the IP of the svc ingress-nginx-controller (loadBalancer) in the host file
+path - etc/hosts
+open the hosts file and add the IP of the loadBalancer and the web address 
+eg 
+20.122.229.200 nitinpahwa.argocd.com
+Everytime when you create nginx-ingress, it will always be different externalIP
+So if you go to the values.yaml file in the folder 700-ingress-nginx, and metion the IP
+for eg.   externalIPs: [20.122.229.200]
+Now it will always have the same IP wich we have metioned in the externalIPs array. 
+you don't need to change the IP in the DNS host file everytime you create the nginx-ingress 
+
+Now we will create ingress resource for argocd uisng the ingress-res.yaml file in the 710-ingress folder
+by using kubectl create command
+
+kubectl create -f ingress-res.yaml 
+
+Now when you go nitinpahwa.argocd.com it will show error like 
+nitinpahwa.argocd.com redirected you too many times.
+
+Now go the the logs why this error is there.
+Check the logs of the pod in the namespace ingress
+
+We will have to add values from the argocd-values.yaml file in the folder values to the argocd in 100-argocd folder
+helm upgrade argo-cd . -n argocd -f ../values/argocd-values.yaml
+
+----------------------------------------------------------------------------------------------
+
+Now if you want to add another deployment in the nitinpahwa.argocd.com at a different path
+for example - nitinpahwa.argocd.com/k8s then run the file deploy.yaml in the 400-demo-argocd folder
+It will create the deployment, service, and ingress from that file and you will see the new deployment will be at 
+nitinpahwa.argocd.com/k8s path
+
+----------------------------------------------------------------------------------------------
+
+
+
+az ad sp create-for-rbac --name "sp-hello-azure-tf" --role Contributor --scopes /subscriptions/edb42159-c288-4e10-aea0-2f403be9a8fb --sdk-auth

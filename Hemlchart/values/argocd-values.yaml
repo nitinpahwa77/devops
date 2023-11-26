@@ -1,0 +1,11 @@
+server:  
+  extraArgs: 
+    - --insecure
+
+ # rbacConfig:
+  #  policy.default: role:readonly
+
+#configs:
+#bcrypt hashsed
+  #secret:
+  #  argocdServerAdminPassword: "$2a$04$5Fi0LXZoIPaQuHzQsnYlke0PLpkDZeL5hzCCDz1osptOKBEBz9l6O"

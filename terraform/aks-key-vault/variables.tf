@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "aks_cls_rg"
+  default = "aks_cls_rg1122"
 }
 
 variable "location" {
@@ -7,9 +7,9 @@ variable "location" {
 }
 
 variable "cluster_name" {
-  default = "aks-cls-name"
+  default = "aks-cls-name1122"
 }
 
 variable "keyvault_name" {
-  default = "akssssbv"
+  default = "aksssswe3bv"
 }

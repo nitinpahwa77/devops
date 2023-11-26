@@ -17,8 +17,8 @@ jobs:
 
     env:
       releaseName: argo-cd
-      ChartPath: Helmchart/100-argo-cd
-      valueFile: Helmchart/values/argocd-values.yaml
+      ChartPath: ./Helmchart/100-argo-cd
+      valueFile: ./Helmchart/values/argocd-values.yaml
       clusterResourceGroupName: aks_cls_rg1122
       clusterName: aks-cls-name1122
 
@@ -46,10 +46,10 @@ jobs:
       run: |
           ls -R
 
-    - name: Print Helm chart and values file contents
-      run: |
-        cat ${{env.ChartPath}}/*.yaml
-        cat ${{env.valueFile}}
+    # - name: Print Helm chart and values file contents
+    #   run: |
+    #     cat ${{env.ChartPath}}/*.yaml
+    #     cat ${{env.valueFile}}
 
     - name: Deploy Helm Chart
       run: |

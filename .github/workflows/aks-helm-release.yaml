@@ -9,7 +9,6 @@ on:
         required: false
   push:
     branches:
-      - main
       - development # Change this to the branch you want to trigger the release
       
 jobs:

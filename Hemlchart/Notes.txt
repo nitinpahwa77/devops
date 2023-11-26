@@ -121,8 +121,45 @@ or
 
 helm install akv2k8s . -n akv2k8s --create-namespace
 
+Now we have installed akv2k8s tool in the namespace akv2k8s. Now we will add a secret in the Azure Key Vault
+so that we can use that secret to fetch or sync that in the AKS cluster.
+
 How to add secret 
 
-az keyvault secret set --name pvtsshkeyazure --vault-name dmpkeyvault123  --value anything
+create akvk8s object
+az keyvault secret set --name pvtsshkeya23w2zure --vault-name aksssswe3bv-kv  --value anything
+
+You can check this created secret by going to key vault section in the azure portal and go to the secrets.
 
 vault-name = get it from the azure portal in the key vault
+
+create namespace mentioned in the secretusingpod.yaml file (eg. reloader-test)
+
+Now run secretusingpod.yaml file in the 610-reloader-akv2k8s folder.
+
+It will create the secret in the akv2k8s object
+
+
+----------------------------------------------------------------------------------------------
+
+Reloader
+
+Now we have akv2k8s to fetch and sync secrets in the aks cluster. Secret is stored in the pod.
+When the security team updates the secret values, or config maps, it gets updated in the AKV but not in the pod
+itself. So how to fix this issue. So when a change is made in the configmap or secret value, that should also be
+change in the pod itself also.
+Here we will use the Reloader. Whenever there will be any change in the secrets or configmaps, the reloader will
+restart the pod or deployment, to get effects of the change in the pod also automatically. we don't have to 
+restart the pod/deployment manually.
+
+helm repo add stakater https://stakater.github.io/stakater-charts
+reloader helm chart
+kubectl create ns reloader
+ helm pull stakater/reloader --untar
+ helm install reloader . -n reloader 
+ 
+
+ After installing the reloader, you have to add annotation. Go check in the secretusingpod.yaml file.
+ Under the deployment, there is annotation. That deployment and pods of that deployment, will detect annotation
+ Now when you make any change in the secret or configmap files, reloader will delete and recreate the pods of that
+ specific deployment automatically to make those changes secret or configmap changes in that deployment.

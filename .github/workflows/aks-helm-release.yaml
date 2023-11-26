@@ -42,6 +42,14 @@ jobs:
         az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         az aks get-credentials --resource-group ${{env.clusterResourceGroupName}}  --name ${{env.clusterName}}  --overwrite-existing
 
+    - name: Print directory contents
+      run: |
+          ls -R
+
+    - name: Print Helm chart and values file contents
+      run: |
+        cat ${{env.ChartPath}}/*.yaml
+        cat ${{env.valueFile}}
 
     - name: Deploy Helm Chart
       run: |

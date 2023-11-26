@@ -11,5 +11,5 @@ variable "cluster_name" {
 }
 
 variable "keyvault_name" {
-  default = "aksknaasssbv"
+  default = "akssssbv"
 }

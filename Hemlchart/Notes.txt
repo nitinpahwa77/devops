@@ -99,3 +99,23 @@ nitinpahwa.argocd.com/k8s path
 
 
 az ad sp create-for-rbac --name "sp-hello-azure-tf" --role Contributor --scopes /subscriptions/edb42159-c288-4e10-aea0-2f403be9a8fb --sdk-auth
+
+----------------------------------------------------------------------------------------------
+
+AKV2K8S
+
+helm repo add spv-charts https://charts.spvapi.no
+
+helm pull spv-charts/akv2k8s --untar --version 2.2.0
+
+create a ns: akv2k8s  
+
+or
+
+helm install akv2k8s . -n akv2k8s --create-namespace
+
+How to add secret 
+
+az keyvault secret set --name pvtsshkeyazure --vault-name dmpkeyvault123  --value anything
+
+vault-name = get it from the azure portal in the key vault

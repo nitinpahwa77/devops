@@ -19,8 +19,8 @@ jobs:
       releaseName: argo-cd
       ChartPath: Helmchart/100-argo-cd
       valueFile: Helmchart/values/argocd-values.yaml
-      clusterResourceGroupName: aks_cls_rg
-      clusterName: aks-cls-name
+      clusterResourceGroupName: aks_cls_rg1122
+      clusterName: aks-cls-name1122
 
 
     steps:

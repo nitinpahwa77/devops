@@ -46,7 +46,7 @@ jobs:
       run: |
           ls -R
 
-    - name: Print Helm chart and values file contents
+    - name: Print Helm chart and values file content
       run: |
         cat ${{env.ChartPath}}/Chart.yaml
         cat ${{env.valueFile}}

@@ -9,7 +9,7 @@ on:
         required: false
   push:
     branches:
-      - development # Change this to the branch you want to trigger the release
+      - development # Change this to the branch you want to trigger the releas
       
 jobs:
   release:
